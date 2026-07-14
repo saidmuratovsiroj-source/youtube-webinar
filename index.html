@@ -93,12 +93,6 @@
     border-radius:16px;
   }
   .hero-img { width:100%; height:100%; object-fit:cover; object-position:top center; border-radius:16px; display:block; }
-  .hero-img-placeholder {
-    width:100%; height:100%; border-radius:16px; display:flex; align-items:center; justify-content:center;
-    background: linear-gradient(160deg, #10192e, #070a12);
-    color: rgba(255,255,255,.25); font-family:'Montserrat',sans-serif; font-size:10px;
-    letter-spacing:2px; text-transform:uppercase; text-align:center; padding:0 12px;
-  }
   .img-border { position:absolute; inset:0; border-radius:16px; border:1px solid rgba(0,200,255,.25); pointer-events:none; z-index:2; }
   .corner { position:absolute; width:16px; height:16px; border-color:var(--electric); border-style:solid; z-index:3; }
   .corner-tl { top:8px; left:8px; border-width:2px 0 0 2px; }
@@ -301,8 +295,7 @@ src="https://www.facebook.com/tr?id=PIXEL_ID_KEYIN_QOYILADI&ev=PageView&noscript
 
   <div class="hero-img-wrap">
     <div class="hero-img-inner">
-      <!-- TODO: speaker.jpg tayyor bo'lgach shu div o'rniga <img class="hero-img" src="speaker.jpg" alt="Speaker" width="180" height="220" fetchpriority="high" decoding="async"> qo'ying -->
-      <div class="hero-img-placeholder">Spiker rasmi<br>tez orada</div>
+      <img class="hero-img" src="speaker.jpg" alt="Speaker" width="180" height="220" fetchpriority="high" decoding="async">
     </div>
     <div class="img-border"></div>
     <div class="corner corner-tl"></div>
