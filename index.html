@@ -356,6 +356,21 @@ src="https://www.facebook.com/tr?id=1543106193605611&ev=PageView&noscript=1"
 </div>
 
 <script>
+// Meta CAPI match quality uchun tashrifchi IP'sini fonda so'raymiz.
+// Sahifa render'ini yoki forma yuborilishini HECH QACHON kutmaydi/bloklamaydi:
+// submitForm() shu o'zgaruvchida hozircha nima bo'lsa (bo'sh yoki tayyor IP) shuni oladi.
+let visitorIp = '';
+(function fetchVisitorIp() {
+  if (!window.fetch || !window.AbortController) return;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 2000);
+  fetch('https://api.ipify.org?format=json', { signal: controller.signal })
+    .then(r => r.json())
+    .then(d => { visitorIp = d.ip || ''; })
+    .catch(() => {})
+    .finally(() => clearTimeout(timer));
+})();
+
 let totalSecs = 120;
 function updateCD() {
   const m = Math.floor(totalSecs/60), s = totalSecs%60;
@@ -409,6 +424,7 @@ function sendLead(name, fullPhone, now, eventId) {
   formData.append('user_agent', navigator.userAgent);
   formData.append('fbp', getCookie('_fbp'));
   formData.append('fbc', getCookie('_fbc'));
+  formData.append('ip', visitorIp);
   // sendBeacon: forma yuborilgach darhol Telegramga o'tkazganimizda ham
   // so'rov bekor bo'lib qolmasligi uchun (fetch sahifadan chiqishda uzilishi mumkin)
   if (navigator.sendBeacon) {
