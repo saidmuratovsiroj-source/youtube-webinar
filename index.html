@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Amerika YouTube Masterclass</title>
+<meta name="description" content="YouTube va AI vositalaridan foydalanib Amerika auditoriyasidan oyiga 1000$+ topishni BEPUL o'rgatuvchi onlayn masterklass. 23-24 iyul, soat 20:00.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Amerika YouTube Masterclass — Noldan $1,000">
+<meta property="og:description" content="YouTube va AI vositalaridan foydalanib Amerika auditoriyasidan oyiga 1000$+ topishni BEPUL o'rgataman.">
+<meta property="og:image" content="https://youtube-webinar.vercel.app/speaker.jpg">
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet"></noscript>
 <style>
@@ -40,6 +45,12 @@
     min-height:100svh;
     display:flex; flex-direction:column;
     padding: 0 20px 20px;
+  }
+  @media (max-height: 700px) {
+    .hero-img-wrap { width:140px; height:170px; margin-top:6px; }
+    .headline h1 { font-size:26px; }
+    .date-value { font-size:30px; }
+    .countdown-bar { padding:8px 14px; margin-top:6px; }
   }
 
   /* badge */
@@ -178,17 +189,6 @@
   }
   @keyframes slideUp { from{transform:translateY(100%)} to{transform:none} }
   .modal-handle { width:40px; height:4px; border-radius:2px; background:rgba(255,255,255,.15); margin:0 auto 20px; }
-  .modal-steps { display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:20px; }
-  .step-dot {
-    width:32px; height:32px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-size:13px; font-weight:700;
-    border:2px solid rgba(255,255,255,.15); color:rgba(255,255,255,.3); transition:.3s;
-  }
-  .step-dot.done { background:var(--electric); border-color:var(--electric); color:var(--dark); }
-  .step-dot.active { border-color:var(--electric); color:var(--electric); }
-  .step-line { flex:1; max-width:40px; height:2px; background:rgba(255,255,255,.1); }
-  .step-line.done { background:var(--electric); }
   .modal-title { font-family:'Bebas Neue', sans-serif; font-size:26px; letter-spacing:1px; text-align:center; margin-bottom:6px; }
   .modal-sub { font-size:12px; color:rgba(255,255,255,.4); text-align:center; margin-bottom:20px; }
   .step-page { display:none; }
@@ -221,21 +221,6 @@
   .btn-modal:active { transform:scale(.97); }
   .btn-modal:disabled { opacity:.5; cursor:default; }
   .step3-content { text-align:center; }
-  .step3-arrows { display:flex; justify-content:center; gap:6px; margin:16px 0; }
-  .arrow-down {
-    width:2px; height:36px; position:relative;
-    background:linear-gradient(180deg, transparent, var(--red)); border-radius:2px;
-    animation: arrowAnim 1s ease infinite;
-  }
-  .arrow-down:nth-child(2){animation-delay:.15s}
-  .arrow-down:nth-child(3){animation-delay:.3s}
-  .arrow-down:nth-child(4){animation-delay:.45s}
-  .arrow-down:nth-child(5){animation-delay:.6s}
-  .arrow-down::after {
-    content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-    border-left:5px solid transparent; border-right:5px solid transparent; border-top:7px solid var(--red);
-  }
-  @keyframes arrowAnim { 0%,100%{opacity:.3;transform:translateY(-6px)} 50%{opacity:1;transform:translateY(0)} }
   .btn-telegram {
     display:flex; align-items:center; justify-content:center; gap:10px; width:100%;
     background:linear-gradient(135deg, #0088cc, #006fab);
@@ -249,8 +234,6 @@
   .success-emoji { font-size:48px; margin-bottom:10px; }
   .success-title { font-family:'Bebas Neue',sans-serif; font-size:28px; margin-bottom:8px; color:var(--electric); }
   .success-sub { font-size:13px; color:rgba(255,255,255,.5); line-height:1.6; }
-  .spinner { display:inline-block; width:18px; height:18px; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; vertical-align:middle; margin-right:8px; }
-  @keyframes spin { to{transform:rotate(360deg)} }
 </style>
 <!-- Meta Pixel Code -->
 <script>
@@ -334,16 +317,11 @@ src="https://www.facebook.com/tr?id=1543106193605611&ev=PageView&noscript=1"
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
-  <div class="modal" id="modal">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-handle"></div>
-    <div class="modal-steps">
-      <div class="step-dot active" id="s1">1</div>
-      <div class="step-line" id="sl1"></div>
-      <div class="step-dot" id="s2">2</div>
-    </div>
 
     <div class="step-page active" id="page1">
-      <div class="modal-title">Ro'yxatdan O'tish</div>
+      <div class="modal-title" id="modalTitle">Ro'yxatdan O'tish</div>
       <div class="modal-sub">Ma'lumotlaringizni kiriting</div>
       <input class="name-input" id="nameInput" type="text" placeholder="Ism va familiya" autocomplete="name" style="margin-bottom:12px;">
       <div class="input-error" id="nameError">Ismingizni kiriting</div>
@@ -353,23 +331,18 @@ src="https://www.facebook.com/tr?id=1543106193605611&ev=PageView&noscript=1"
           <option value="+7">&#127479;&#127482; +7</option>
           <option value="+1">&#127482;&#127480; +1</option>
         </select>
-        <input class="phone-input" id="phoneInput" type="tel" placeholder="99 123 45 67" maxlength="12" inputmode="numeric">
+        <input class="phone-input" id="phoneInput" type="tel" placeholder="99 123 45 67" maxlength="12" inputmode="numeric" autocomplete="tel">
       </div>
       <div class="input-error" id="phoneError">To'g'ri telefon raqam kiriting</div>
-      <button class="btn-modal" id="submitBtn" onclick="submitForm()">DAVOM ETISH &rarr;</button>
+      <button class="btn-modal" id="submitBtn" onclick="submitForm()">RO'YXATDAN O'TISH &rarr;</button>
     </div>
 
     <div class="step-page" id="page3">
       <div class="step3-content">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;text-align:center;margin-bottom:10px;">So'nggi qadam...</div>
-        <div style="font-size:13px;color:rgba(255,255,255,.5);text-align:center;line-height:1.6;margin-bottom:20px;">Masterklassda qatnashish uchun, yopiq<br>telegram kanalimizga obuna bo'ling!</div>
-        <div class="step3-arrows" style="margin:0 0 20px;">
-          <div class="arrow-down"></div><div class="arrow-down"></div>
-          <div class="arrow-down"></div><div class="arrow-down"></div>
-          <div class="arrow-down"></div>
-        </div>
-        <a href="https://t.me/amerika_yt" target="_blank" class="btn-telegram" onclick="trackLead();markDone()">
-          &#9992;&#65039; OBUNA BO'LISH
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;text-align:center;margin-bottom:10px;">Deyarli tayyor!</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.5);text-align:center;line-height:1.6;margin-bottom:20px;">Telegram kanalimiz hozir avtomatik ochiladi.<br>Ochilmasa, quyidagi tugmani bosing:</div>
+        <a id="telegramBtn" href="https://t.me/amerika_yt" target="_blank" class="btn-telegram" onclick="trackLead();markDone()">
+          &#9992;&#65039; TELEGRAMGA O'TISH
         </a>
       </div>
       <div class="success-msg" id="successMsg">
@@ -400,13 +373,8 @@ function closeModal() {
 function resetModal() {
   document.getElementById('page3').classList.remove('active');
   document.getElementById('page1').classList.add('active');
-  document.getElementById('s1').textContent='1'; document.getElementById('s1').classList.add('active'); document.getElementById('s1').classList.remove('done');
-  document.getElementById('sl1').classList.remove('done');
-  document.getElementById('s2').classList.remove('active');
   document.querySelector('.step3-content').style.display='';
   document.getElementById('successMsg').style.display='none';
-  const btn = document.getElementById('submitBtn');
-  btn.disabled=false; btn.innerHTML="DAVOM ETISH &rarr;";
 }
 function handleOverlayClick(e) { if(e.target===document.getElementById('modalOverlay')) closeModal(); }
 
@@ -415,34 +383,42 @@ document.getElementById('phoneInput').addEventListener('input', function() {
   document.getElementById('phoneError').style.display='none';
 });
 
-async function submitForm() {
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwtFRSM-DtFnoXaTTtCt7xXNaQUyVsKyVJ5MFkFuQWhdkZA4WHoacRivE8BP934ywaKlw/exec';
+
+function sendLead(name, fullPhone, now) {
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('phone', fullPhone);
+  formData.append('date', now);
+  formData.append('source', 'youtube-webinar');
+  // sendBeacon: forma yuborilgach darhol Telegramga o'tkazganimizda ham
+  // so'rov bekor bo'lib qolmasligi uchun (fetch sahifadan chiqishda uzilishi mumkin)
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(GAS_URL, formData);
+  } else {
+    fetch(GAS_URL, { method:'POST', mode:'no-cors', body:formData, keepalive:true }).catch(()=>{});
+  }
+}
+
+function submitForm() {
   const name = document.getElementById('nameInput').value.trim();
   const phone = document.getElementById('phoneInput').value.replace(/\s/g,'');
   if(!name) { document.getElementById('nameError').style.display='block'; return; }
   if(phone.length < 9) { document.getElementById('phoneError').style.display='block'; return; }
   document.getElementById('nameError').style.display='none';
   document.getElementById('phoneError').style.display='none';
-  const btn = document.getElementById('submitBtn');
-  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Saqlanmoqda...';
+
   const fullPhone = document.getElementById('countryCode').value + phone;
   const now = new Date().toLocaleString('uz-UZ',{timeZone:'Asia/Tashkent'});
-  try {
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('phone', fullPhone);
-    formData.append('date', now);
-    formData.append('source', 'youtube-webinar');
-    await fetch('https://script.google.com/macros/s/AKfycbwtFRSM-DtFnoXaTTtCt7xXNaQUyVsKyVJ5MFkFuQWhdkZA4WHoacRivE8BP934ywaKlw/exec',{
-      method:'POST', mode:'no-cors',
-      body: formData
-    });
-  } catch(e){}
-  document.getElementById('s1').textContent='✓'; document.getElementById('s1').classList.remove('active'); document.getElementById('s1').classList.add('done');
-  document.getElementById('sl1').classList.add('done');
-  document.getElementById('s2').textContent='2'; document.getElementById('s2').classList.add('active');
-  document.getElementById('page1').classList.remove('active'); document.getElementById('page3').classList.add('active');
-  // Pixel: kontakt qoldirdi (oraliq bosqich)
-  if(typeof fbq !== 'undefined') { fbq('track', 'Lead'); }
+  sendLead(name, fullPhone, now);
+  if (typeof fbq !== 'undefined') { fbq('track', 'Lead'); }
+
+  document.getElementById('page1').classList.remove('active');
+  document.getElementById('page3').classList.add('active');
+  // Foydalanuvchi qo'shimcha bosishga hojat qolmasin deb Telegram tugmasini
+  // shu yerning o'zida avtomatik bosamiz; popup bloklansa, tugma ko'rinib turadi
+  // va foydalanuvchi qo'lda bosishi mumkin (fallback).
+  document.getElementById('telegramBtn').click();
 }
 
 function trackLead() { if(typeof fbq !== "undefined") { fbq("track", "Subscribe"); } }
