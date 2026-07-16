@@ -386,12 +386,29 @@ document.getElementById('phoneInput').addEventListener('input', function() {
 
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwtFRSM-DtFnoXaTTtCt7xXNaQUyVsKyVJ5MFkFuQWhdkZA4WHoacRivE8BP934ywaKlw/exec';
 
-function sendLead(name, fullPhone, now) {
+function getCookie(name) {
+  const m = document.cookie.match('(?:^|;\\s*)' + name + '=([^;]+)');
+  return m ? m[1] : '';
+}
+
+function genEventId() {
+  return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('ev_' + Date.now() + '_' + Math.random().toString(36).slice(2));
+}
+
+function sendLead(name, fullPhone, now, eventId) {
   const formData = new FormData();
   formData.append('name', name);
   formData.append('phone', fullPhone);
   formData.append('date', now);
   formData.append('source', 'youtube-webinar');
+  // Meta Conversions API (server-side) uchun: brauzerdagi fbq('Lead') va
+  // serverdan yuboriladigan CAPI Lead'ni bitta konversiya sifatida hisoblash
+  // (dedup) uchun ikkalasida ham bir xil event_id ishlatiladi.
+  formData.append('event_id', eventId);
+  formData.append('event_source_url', window.location.href);
+  formData.append('user_agent', navigator.userAgent);
+  formData.append('fbp', getCookie('_fbp'));
+  formData.append('fbc', getCookie('_fbc'));
   // sendBeacon: forma yuborilgach darhol Telegramga o'tkazganimizda ham
   // so'rov bekor bo'lib qolmasligi uchun (fetch sahifadan chiqishda uzilishi mumkin)
   if (navigator.sendBeacon) {
@@ -411,8 +428,9 @@ function submitForm() {
 
   const fullPhone = document.getElementById('countryCode').value + phone;
   const now = new Date().toLocaleString('uz-UZ',{timeZone:'Asia/Tashkent'});
-  sendLead(name, fullPhone, now);
-  if (typeof fbq !== 'undefined') { fbq('track', 'Lead'); }
+  const eventId = genEventId();
+  sendLead(name, fullPhone, now, eventId);
+  if (typeof fbq !== 'undefined') { fbq('track', 'Lead', {}, { eventID: eventId }); }
 
   document.getElementById('page1').classList.remove('active');
   document.getElementById('page3').classList.add('active');
