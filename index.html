@@ -359,17 +359,8 @@ src="https://www.facebook.com/tr?id=1543106193605611&ev=PageView&noscript=1"
       <button class="btn-modal" id="submitBtn" onclick="submitForm()">DAVOM ETISH &rarr;</button>
     </div>
 
-    <div class="step-page" id="page2"></div>
-
     <div class="step-page" id="page3">
       <div class="step3-content">
-        <div class="modal-steps" style="margin-bottom:24px;">
-          <div class="step-dot done">&#10003;</div>
-          <div class="step-line done"></div>
-          <div class="step-dot done">&#10003;</div>
-          <div class="step-line done"></div>
-          <div class="step-dot active">3</div>
-        </div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;text-align:center;margin-bottom:10px;">So'nggi qadam...</div>
         <div style="font-size:13px;color:rgba(255,255,255,.5);text-align:center;line-height:1.6;margin-bottom:20px;">Masterklassda qatnashish uchun, yopiq<br>telegram kanalimizga obuna bo'ling!</div>
         <div class="step3-arrows" style="margin:0 0 20px;">
@@ -396,12 +387,27 @@ function updateCD() {
   const m = Math.floor(totalSecs/60), s = totalSecs%60;
   document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
   document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
-  totalSecs > 0 ? totalSecs-- : (totalSecs = 120);
+  if (totalSecs > 0) totalSecs--;
 }
 updateCD(); setInterval(updateCD, 1000);
 
 function openModal() { document.getElementById('modalOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow=''; }
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  resetModal();
+}
+function resetModal() {
+  document.getElementById('page3').classList.remove('active');
+  document.getElementById('page1').classList.add('active');
+  document.getElementById('s1').textContent='1'; document.getElementById('s1').classList.add('active'); document.getElementById('s1').classList.remove('done');
+  document.getElementById('sl1').classList.remove('done');
+  document.getElementById('s2').classList.remove('active');
+  document.querySelector('.step3-content').style.display='';
+  document.getElementById('successMsg').style.display='none';
+  const btn = document.getElementById('submitBtn');
+  btn.disabled=false; btn.innerHTML="DAVOM ETISH &rarr;";
+}
 function handleOverlayClick(e) { if(e.target===document.getElementById('modalOverlay')) closeModal(); }
 
 document.getElementById('phoneInput').addEventListener('input', function() {
