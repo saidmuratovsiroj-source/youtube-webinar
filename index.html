@@ -155,7 +155,13 @@
   .cd-bottom { text-align:center; margin-top:6px; font-size:10px; color:var(--red); font-weight:700; }
 
   /* CTA */
-  .cta-wrap { padding: 10px 0 0; }
+  .cta-wrap {
+    padding: 10px 0 0;
+    margin-top: auto;
+    position: sticky;
+    bottom: 12px;
+    z-index: 5;
+  }
   .btn-cta {
     display:block; width:100%;
     background: linear-gradient(135deg, var(--red), #ff3a1a);
